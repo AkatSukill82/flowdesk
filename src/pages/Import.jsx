@@ -22,6 +22,8 @@ import {
 import { Upload, FileText, Check, AlertTriangle, Loader2 } from 'lucide-react';
 import { formatCurrency } from '@/lib/formatters';
 import { motion } from 'framer-motion';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import SheetsImport from '@/components/import/SheetsImport';
 
 export default function Import() {
   const [file, setFile] = useState(null);
@@ -145,6 +147,21 @@ export default function Import() {
         </p>
       </div>
 
+      <Tabs defaultValue="csv">
+        <TabsList className="w-full">
+          <TabsTrigger value="csv" className="flex-1">📄 Fichier CSV</TabsTrigger>
+          <TabsTrigger value="sheets" className="flex-1">🟢 Google Sheets</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="sheets">
+          <Card>
+            <CardContent className="p-6">
+              <SheetsImport accounts={accounts} />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="csv">
       <Card>
         <CardContent className="p-6 space-y-6">
           {/* File Upload */}
@@ -259,6 +276,8 @@ export default function Import() {
           )}
         </CardContent>
       </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
