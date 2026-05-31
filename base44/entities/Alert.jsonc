@@ -1,0 +1,32 @@
+{
+  "name": "Alert",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "low_balance",
+        "renewal_soon",
+        "spending_spike",
+        "forecast_warning",
+        "custom"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "description": "Message en langage clair"
+    },
+    "is_read": {
+      "type": "boolean",
+      "default": false
+    },
+    "triggered_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "type",
+    "message"
+  ]
+}

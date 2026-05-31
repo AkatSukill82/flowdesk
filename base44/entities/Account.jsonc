@@ -1,0 +1,31 @@
+{
+  "name": "Account",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nom du compte \u2014 ex: ING Bank, Stripe"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "bank",
+        "payment_processor",
+        "cash",
+        "other"
+      ],
+      "default": "bank"
+    },
+    "currency": {
+      "type": "string",
+      "default": "EUR"
+    },
+    "balance": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

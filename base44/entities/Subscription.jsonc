@@ -1,0 +1,39 @@
+{
+  "name": "Subscription",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nom du service \u2014 ex: Figma, AWS"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "cycle": {
+      "type": "string",
+      "enum": [
+        "monthly",
+        "yearly"
+      ],
+      "default": "monthly"
+    },
+    "next_renewal": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "cancelled"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "name",
+    "amount",
+    "next_renewal"
+  ]
+}

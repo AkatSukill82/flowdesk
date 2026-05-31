@@ -1,0 +1,52 @@
+{
+  "name": "Transaction",
+  "type": "object",
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "ID du compte li\u00e9"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Positif = entr\u00e9e, n\u00e9gatif = sortie"
+    },
+    "label": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "income",
+        "salary",
+        "subscription",
+        "tax",
+        "expense",
+        "transfer",
+        "other"
+      ],
+      "default": "other"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "csv_import",
+        "stripe",
+        "webhook"
+      ],
+      "default": "manual"
+    },
+    "note": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "amount",
+    "label",
+    "date"
+  ]
+}
