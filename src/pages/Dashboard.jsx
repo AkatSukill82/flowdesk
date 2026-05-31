@@ -12,6 +12,7 @@ import RevenueChart from '@/components/dashboard/RevenueChart';
 import RecentTransactions from '@/components/dashboard/RecentTransactions';
 import SubscriptionsList from '@/components/dashboard/SubscriptionsList';
 import FinancialHealth from '@/components/dashboard/FinancialHealth';
+import MonthlyReport from '@/components/dashboard/MonthlyReport';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -110,6 +111,9 @@ export default function Dashboard() {
 
       {/* Chart */}
       <RevenueChart transactions={transactions} />
+
+      {/* Monthly Report */}
+      <MonthlyReport transactions={transactions} />
 
       {/* Bottom Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
