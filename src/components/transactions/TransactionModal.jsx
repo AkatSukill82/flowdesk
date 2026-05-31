@@ -17,6 +17,12 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 
+const paymentStatuses = [
+  { value: 'paid', label: '✅ Payée' },
+  { value: 'pending', label: '⏳ En attente' },
+  { value: 'overdue', label: '🔴 En retard' },
+];
+
 const categories = [
   { value: 'income', label: 'Entrée' },
   { value: 'salary', label: 'Salaire' },
@@ -36,6 +42,7 @@ export default function TransactionModal({ open, onClose, onSave, accounts = [],
     account_id: editTx?.account_id || accounts[0]?.id || '',
     note: editTx?.note || '',
     source: 'manual',
+    payment_status: editTx?.payment_status || 'paid',
   });
 
   const handleSubmit = (e) => {
@@ -111,6 +118,18 @@ export default function TransactionModal({ open, onClose, onSave, accounts = [],
                 </SelectContent>
               </Select>
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Statut de paiement</Label>
+            <Select value={form.payment_status} onValueChange={(v) => setForm({ ...form, payment_status: v })}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {paymentStatuses.map((s) => (
+                  <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">

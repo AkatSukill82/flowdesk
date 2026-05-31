@@ -25,6 +25,9 @@ import {
   ArrowLeftRight,
   Trash2,
   Pencil,
+  Clock,
+  AlertCircle,
+  CheckCircle2,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/formatters';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -50,6 +53,12 @@ const categoryLabels = {
   other: 'Autre',
 };
 
+const paymentStatusConfig = {
+  paid: { label: 'Payée', className: 'bg-primary/10 text-primary border-primary/20', Icon: CheckCircle2 },
+  pending: { label: 'En attente', className: 'bg-accent/10 text-accent border-accent/20', Icon: Clock },
+  overdue: { label: 'En retard', className: 'bg-destructive/10 text-destructive border-destructive/20', Icon: AlertCircle },
+};
+
 const categoryColors = {
   income: 'bg-primary/10 text-primary border-primary/20',
   salary: 'bg-primary/10 text-primary border-primary/20',
@@ -66,6 +75,7 @@ export default function Transactions() {
   const [search, setSearch] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterAccount, setFilterAccount] = useState('all');
+  const [filterStatus, setFilterStatus] = useState('all');
   const queryClient = useQueryClient();
 
   const { data: transactions = [], isLoading } = useQuery({
@@ -109,7 +119,8 @@ export default function Transactions() {
       const matchSearch = !search || t.label?.toLowerCase().includes(search.toLowerCase());
       const matchCategory = filterCategory === 'all' || t.category === filterCategory;
       const matchAccount = filterAccount === 'all' || t.account_id === filterAccount;
-      return matchSearch && matchCategory && matchAccount;
+      const matchStatus = filterStatus === 'all' || t.payment_status === filterStatus;
+      return matchSearch && matchCategory && matchAccount && matchStatus;
     });
   }, [transactions, search, filterCategory, filterAccount]);
 
@@ -158,6 +169,17 @@ export default function Transactions() {
                 {accounts.map((a) => (
                   <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>
                 ))}
+              </SelectContent>
+            </Select>
+            <Select value={filterStatus} onValueChange={setFilterStatus}>
+              <SelectTrigger className="w-full sm:w-40">
+                <SelectValue placeholder="Statut" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tous les statuts</SelectItem>
+                <SelectItem value="paid">✅ Payée</SelectItem>
+                <SelectItem value="pending">⏳ En attente</SelectItem>
+                <SelectItem value="overdue">🔴 En retard</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -209,6 +231,15 @@ export default function Transactions() {
                       <Badge variant="outline" className={`hidden sm:flex ${categoryColors[tx.category] || ''} text-xs`}>
                         {categoryLabels[tx.category] || tx.category}
                       </Badge>
+                      {tx.payment_status && tx.payment_status !== 'paid' && (() => {
+                        const s = paymentStatusConfig[tx.payment_status];
+                        return s ? (
+                          <Badge variant="outline" className={`hidden md:flex items-center gap-1 text-xs ${s.className}`}>
+                            <s.Icon className="w-3 h-3" />
+                            {s.label}
+                          </Badge>
+                        ) : null;
+                      })()}
                       <span className={`text-sm font-semibold tabular-nums min-w-[80px] text-right ${isIncome ? 'text-primary' : 'text-foreground'}`}>
                         {isIncome ? '+' : ''}{formatCurrency(tx.amount)}
                       </span>

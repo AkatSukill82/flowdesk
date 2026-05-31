@@ -26,6 +26,16 @@
       ],
       "default": "other"
     },
+    "payment_status": {
+      "type": "string",
+      "enum": [
+        "paid",
+        "pending",
+        "overdue"
+      ],
+      "description": "Statut de paiement \u2014 pour le suivi des factures clients",
+      "default": "paid"
+    },
     "date": {
       "type": "string",
       "format": "date"
