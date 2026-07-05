@@ -29,6 +29,24 @@
         "cancelled"
       ],
       "default": "active"
+    },
+    "autopay_status": {
+      "type": "string",
+      "enum": [
+        "none",
+        "pending",
+        "active"
+      ],
+      "default": "none",
+      "description": "Statut du pr\u00e9l\u00e8vement automatique via Base44 Payments"
+    },
+    "wix_subscription_id": {
+      "type": "string",
+      "description": "ID d'abonnement Wix \u2014 pour le suivi des webhooks"
+    },
+    "wix_checkout_id": {
+      "type": "string",
+      "description": "ID de session checkout Wix \u2014 pour corr\u00e9ler le webhook order_approved"
     }
   },
   "required": [

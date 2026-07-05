@@ -41,6 +41,10 @@ export default function Subscriptions() {
     updateMutation.mutate({ id, data: { status } });
   };
 
+  const handleAutopayChanged = () => {
+    queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
+  };
+
   const activeSubs = subscriptions.filter((s) => s.status === 'active');
   const monthlyTotal = activeSubs.reduce((s, sub) => {
     return s + (sub.cycle === 'yearly' ? sub.amount / 12 : sub.amount);
@@ -81,6 +85,7 @@ export default function Subscriptions() {
               index={i}
               onEdit={(s) => { setEditSub(s); setShowModal(true); }}
               onStatusChange={handleStatusChange}
+              onAutopayChanged={handleAutopayChanged}
             />
           ))}
         </div>
