@@ -7,6 +7,7 @@ import { base44 } from '@/api/base44Client';
 import { formatCurrency, formatRelativeDate } from '@/lib/formatters';
 import { Pencil, Pause, Play, XCircle, Calendar, Repeat, CreditCard, Loader2, Check, ShieldOff } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { POPULAR_SERVICES } from '@/data/popularServices';
 
 const statusConfig = {
   active: { label: 'Actif', class: 'bg-primary/10 text-primary border-primary/20' },
@@ -17,6 +18,9 @@ const statusConfig = {
 export default function SubscriptionCard({ subscription, onEdit, onStatusChange, onAutopayChanged, index = 0 }) {
   const status = statusConfig[subscription.status] || statusConfig.active;
   const { toast } = useToast();
+  const matchedService = POPULAR_SERVICES.find(
+    (s) => s.name.toLowerCase() === subscription.name?.toLowerCase()
+  );
   const [loadingSetup, setLoadingSetup] = useState(false);
   const [loadingCancel, setLoadingCancel] = useState(false);
 
@@ -75,8 +79,21 @@ export default function SubscriptionCard({ subscription, onEdit, onStatusChange,
         <CardContent className="p-5">
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
-                <Repeat className="w-5 h-5 text-accent" />
+              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center overflow-hidden">
+                {matchedService ? (
+                  <img
+                    src={matchedService.logo}
+                    alt={subscription.name}
+                    className="w-6 h-6 object-contain"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'block';
+                    }}
+                  />
+                ) : null}
+                <Repeat
+                  className={`w-5 h-5 text-accent ${matchedService ? 'hidden' : ''}`}
+                />
               </div>
               <div>
                 <h3 className="font-semibold text-sm">{subscription.name}</h3>

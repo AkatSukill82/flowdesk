@@ -16,39 +16,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Search } from 'lucide-react';
-
-const POPULAR_SERVICES = [
-  { name: 'Netflix', defaultAmount: 13.49, icon: '🎬' },
-  { name: 'Spotify', defaultAmount: 10.99, icon: '🎵' },
-  { name: 'Amazon Prime', defaultAmount: 6.99, icon: '📦' },
-  { name: 'Disney+', defaultAmount: 8.99, icon: '✨' },
-  { name: 'Apple Music', defaultAmount: 10.99, icon: '🎶' },
-  { name: 'Apple TV+', defaultAmount: 9.99, icon: '📺' },
-  { name: 'Apple iCloud', defaultAmount: 2.99, icon: '☁️' },
-  { name: 'YouTube Premium', defaultAmount: 11.99, icon: '▶️' },
-  { name: 'Figma', defaultAmount: 12.00, icon: '🎨' },
-  { name: 'Notion', defaultAmount: 8.00, icon: '📝' },
-  { name: 'Slack', defaultAmount: 7.25, icon: '💬' },
-  { name: 'Microsoft 365', defaultAmount: 7.00, icon: '📊' },
-  { name: 'Adobe Creative Cloud', defaultAmount: 59.99, icon: '🖌️' },
-  { name: 'Canva Pro', defaultAmount: 10.99, icon: '🖼️' },
-  { name: 'Google One', defaultAmount: 1.99, icon: '💾' },
-  { name: 'Google Workspace', defaultAmount: 5.40, icon: '🗓️' },
-  { name: 'ChatGPT Plus', defaultAmount: 20.00, icon: '🤖' },
-  { name: 'GitHub Copilot', defaultAmount: 10.00, icon: '🐙' },
-  { name: 'AWS', defaultAmount: 0.50, icon: '☁️' },
-  { name: 'Dropbox', defaultAmount: 9.99, icon: '📁' },
-  { name: 'Zoom', defaultAmount: 13.99, icon: '📹' },
-  { name: 'Trello', defaultAmount: 5.00, icon: '📋' },
-  { name: 'LinkedIn Premium', defaultAmount: 29.99, icon: '💼' },
-  { name: 'Coursera Plus', defaultAmount: 49.00, icon: '🎓' },
-  { name: 'Deezer', defaultAmount: 10.99, icon: '🎼' },
-  { name: 'Canal+', defaultAmount: 20.99, icon: '📡' },
-  { name: 'Gymshark', defaultAmount: 19.99, icon: '💪' },
-  { name: 'Basic-Fit', defaultAmount: 29.99, icon: '🏋️' },
-  { name: 'Headspace', defaultAmount: 12.99, icon: '🧘' },
-  { name: 'Duolingo Plus', defaultAmount: 7.99, icon: '🦉' },
-];
+import { POPULAR_SERVICES } from '@/data/popularServices';
 
 export default function SubscriptionModal({ open, onClose, onSave, editSub = null }) {
   const [form, setForm] = useState({
@@ -66,7 +34,7 @@ export default function SubscriptionModal({ open, onClose, onSave, editSub = nul
   );
 
   const handlePickService = (service) => {
-    setForm({ ...form, name: service.name, amount: service.defaultAmount.toString() });
+    setForm({ ...form, name: service.name, amount: service.amount.toString() });
     setSearch('');
     setShowSuggestions(false);
   };
@@ -100,24 +68,29 @@ export default function SubscriptionModal({ open, onClose, onSave, editSub = nul
                 }}
                 onFocus={() => setShowSuggestions(true)}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                placeholder="Ex: Figma, AWS, Notion..."
+                placeholder="Recherche : Netflix, Figma, OpenAI, AWS..."
                 className="pl-9"
                 required
               />
             </div>
             {showSuggestions && filteredServices.length > 0 && (
-              <div className="absolute z-50 top-full left-0 right-0 mt-1 max-h-52 overflow-y-auto rounded-lg border bg-popover shadow-md">
-                {filteredServices.slice(0, 8).map((service) => (
+              <div className="absolute z-50 top-full left-0 right-0 mt-1 max-h-64 overflow-y-auto rounded-lg border bg-popover shadow-md">
+                {filteredServices.slice(0, 12).map((service) => (
                   <button
                     key={service.name}
                     type="button"
                     onMouseDown={() => handlePickService(service)}
                     className="w-full flex items-center gap-3 px-3 py-2 text-left text-sm hover:bg-accent transition-colors"
                   >
-                    <span className="text-lg">{service.icon}</span>
+                    <img
+                      src={service.logo}
+                      alt={service.name}
+                      className="w-5 h-5 object-contain flex-shrink-0"
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
                     <span className="flex-1">{service.name}</span>
                     <span className="text-xs text-muted-foreground">
-                      {service.defaultAmount}€
+                      {service.amount}€
                     </span>
                   </button>
                 ))}
