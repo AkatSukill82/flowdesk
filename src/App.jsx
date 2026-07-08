@@ -19,6 +19,9 @@ import Subscriptions from '@/pages/Subscriptions';
 import Alerts from '@/pages/Alerts';
 import Import from '@/pages/Import';
 import Onboarding from '@/pages/Onboarding';
+import Statements from '@/pages/Statements';
+import NewStatement from '@/pages/NewStatement';
+import StatementDetail from '@/pages/StatementDetail';
 import AppLayout from '@/components/layout/AppLayout';
 
 const AuthenticatedApp = () => {
@@ -62,6 +65,9 @@ const AuthenticatedApp = () => {
           <Route path="/subscriptions" element={<Subscriptions />} />
           <Route path="/alerts" element={<Alerts />} />
           <Route path="/import" element={<Import />} />
+          <Route path="/statements" element={<Statements />} />
+          <Route path="/statements/new" element={<NewStatement />} />
+          <Route path="/statements/:id" element={<StatementDetail />} />
         </Route>
       </Route>
 

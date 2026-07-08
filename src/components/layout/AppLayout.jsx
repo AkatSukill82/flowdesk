@@ -7,6 +7,7 @@ import {
   Repeat,
   Bell,
   Upload,
+  FileText,
   Menu,
   X,
   LogOut,
@@ -23,6 +24,7 @@ const navItems = [
   { path: '/subscriptions', label: 'Abonnements', icon: Repeat },
   { path: '/alerts', label: 'Alertes', icon: Bell },
   { path: '/import', label: 'Importer', icon: Upload },
+  { path: '/statements', label: 'Relevés', icon: FileText },
 ];
 
 export default function AppLayout() {
