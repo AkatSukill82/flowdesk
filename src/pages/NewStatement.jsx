@@ -14,6 +14,7 @@ export default function NewStatement() {
   const [connected, setConnected] = useState(false);
   const [loading, setLoading] = useState(true);
   const [scanning, setScanning] = useState(false);
+  const [connecting, setConnecting] = useState(false);
   const [periodStart, setPeriodStart] = useState('');
   const [periodEnd, setPeriodEnd] = useState('');
 
@@ -34,14 +35,25 @@ export default function NewStatement() {
   }, []);
 
   const handleConnect = async () => {
-    const url = await base44.connectors.connectAppUser(GMAIL_CONNECTOR_ID);
-    const popup = window.open(url, '_blank');
-    const timer = setInterval(() => {
-      if (!popup || popup.closed) {
-        clearInterval(timer);
-        checkConnection();
+    setConnecting(true);
+    try {
+      const url = await base44.connectors.connectAppUser(GMAIL_CONNECTOR_ID);
+      const popup = window.open(url, '_blank');
+      if (!popup) {
+        toast({ title: 'Popup bloquée', description: 'Autorisez les popups puis réessayez', variant: 'destructive' });
+        return;
       }
-    }, 500);
+      const timer = setInterval(() => {
+        if (popup.closed) {
+          clearInterval(timer);
+          checkConnection();
+        }
+      }, 500);
+    } catch (e) {
+      toast({ title: 'Erreur de connexion', description: e.message, variant: 'destructive' });
+    } finally {
+      setConnecting(false);
+    }
   };
 
   const handleScan = async () => {
@@ -77,7 +89,10 @@ export default function NewStatement() {
             <p className="font-medium">Connectez votre boîte Gmail</p>
             <p className="text-sm text-muted-foreground">Lecture seule — nous ne modifions aucun email</p>
           </div>
-          <Button onClick={handleConnect} className="gap-2"><Mail className="w-4 h-4" />Connecter Gmail</Button>
+          <Button onClick={handleConnect} disabled={connecting} className="gap-2">
+            {connecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
+            {connecting ? 'Connexion...' : 'Connecter Gmail'}
+          </Button>
         </div>
       ) : (
         <div className="space-y-4">
