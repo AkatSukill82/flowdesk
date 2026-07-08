@@ -1,6 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-const GMAIL_CONNECTOR_ID = "REPLACE_AFTER_REGISTRATION";
+const GMAIL_CONNECTOR_ID = "6a4def8be153a0a9d486583b";
 
 function base64UrlToUint8Array(base64url) {
   const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
