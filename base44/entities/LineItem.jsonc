@@ -1,0 +1,58 @@
+{
+  "name": "LineItem",
+  "type": "object",
+  "properties": {
+    "statement": {
+      "type": "string",
+      "description": "ID du Statement parent"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "vendor": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "EUR"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Logiciel/SaaS",
+        "H\u00e9bergement",
+        "Abonnement",
+        "Assurance",
+        "Mat\u00e9riel",
+        "Autre"
+      ],
+      "default": "Autre"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Objet de l'email source"
+    },
+    "source_email_id": {
+      "type": "string",
+      "description": "ID du message Gmail, pour tra\u00e7abilit\u00e9/audit"
+    },
+    "attachment": {
+      "type": "string",
+      "description": "URL de la pi\u00e8ce jointe originale si elle existe"
+    },
+    "verified": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "statement",
+    "date",
+    "vendor",
+    "amount"
+  ]
+}
